@@ -1,8 +1,8 @@
-local Remap = require("dev.keymap")
-local nnoremap = Remap.nnoremap
-local inoremap = Remap.inoremap
-local xnoremap = Remap.xnoremap
-local tnoremap = Remap.tnoremap
+--local Remap = require("dev.keymap")
+--local nnoremap = Remap.nnoremap
+--local inoremap = Remap.inoremap
+--local xnoremap = Remap.xnoremap
+--local tnoremap = Remap.tnoremap
 
 vim.g.mapleader = " "
 

@@ -1,4 +1,11 @@
+local Remap = require("dev.keymap")
+local nnoremap = Remap.nnoremap
+local inoremap = Remap.inoremap
+local xnoremap = Remap.xnoremap
+local tnoremap = Remap.tnoremap
+
 vim.g.mapleader = " "
+
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")

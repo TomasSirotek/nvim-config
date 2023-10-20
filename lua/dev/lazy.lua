@@ -1,4 +1,5 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",
@@ -92,5 +93,4 @@ require("lazy").setup({
   { "nvim-lualine/lualine.nvim" },
   { "lukas-reineke/indent-blankline.nvim" },
   { 'rose-pine/neovim', as = 'rose-pine' }
-  -- { "nycrat/rose-pine" },
 })

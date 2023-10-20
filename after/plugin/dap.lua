@@ -1,86 +1,57 @@
-local nnoremap = require("dev.keymap").nnoremap
-local dap = require("dap")
-local dapui = require("dapui")
+local Remap = require("dev.keymap")
+local nnoremap = Remap.nnoremap
+local inoremap = Remap.inoremap
+local xnoremap = Remap.xnoremap
+local tnoremap = Remap.tnoremap
 
 local silent = { silent = true }
 
-nnoremap("<F2>", dap.terminate, silent)
-nnoremap("<F5>", dap.continue, silent)
--- nnoremap("<F10>", dap.step_over, silent)
-nnoremap("<F10>", dap.step_into, silent)
-nnoremap("<F12>", dap.step_out, silent)
+nnoremap("<C-z>", "<Cmd>silent !font-switcher; kill -SIGUSR1 $(ps -A | grep 'kitty$' | awk '{print $1}')<CR>")
 
-nnoremap("<leader>du", dapui.toggle, silent)
-nnoremap(
-  "<leader>dj",
-  function() dap.set_breakpoint(vim.fn.input("Breakpoint condition: "), nil, vim.fn.input("Log point message: ")) end,
+nnoremap("<C-b>", "<Cmd>silent !font-switcher -d; kill -SIGUSR1 $(ps -A | grep 'kitty$' | awk '{print $1}')<CR>")
+
+-- easier to enter normal mode
+inoremap("jk", "<Esc>")
+
+-- Movement
+nnoremap("<C-L>", "<C-W><C-L>")
+nnoremap("<C-H>", "<C-W><C-H>")
+nnoremap("<C-K>", "<C-W><C-K>")
+nnoremap("<C-J>", "<C-W><C-J>")
+nnoremap("<C-d>", "<C-d>zz")
+nnoremap("<C-u>", "<C-u>zz")
+nnoremap("n", "nzzzv")
+nnoremap("N", "Nzzzv")
+xnoremap(
+  "n",
+  [[:<c-u>let temp_variable=@"<CR>gvy:<c-u>let @/='\V<C-R>=escape(@",'/\')<CR>'<CR>:let @"=temp_variable<CR>]],
   silent
 )
-nnoremap("<leader>ddd", dap.clear_breakpoints, silent)
-nnoremap("<leader>dk", dap.toggle_breakpoint, silent)
 
-require("dapui").setup({
-  mappings = { expand = { "o", "<2-LeftMouse>" }, open = "<CR>" },
-  layouts = {
-    {
-      elements = {
-        { id = "scopes", size = 0.5 },
-        { id = "breakpoints", size = 0.15 },
-        { id = "stacks", size = 0.2 },
-        { id = "watches", size = 0.15 },
-      },
-      size = 0.3,
-      position = "left",
-    },
-    { elements = { "repl", "console" }, size = 0.3, position = "bottom" },
-  },
-})
+-- Copy Paste
+xnoremap("<leader>y", "\"+y", silent)
 
-require("nvim-dap-virtual-text").setup()
+-- built in terminal
+nnoremap("<leader>t", "<Cmd>sp<CR> <Cmd>term<CR> <Cmd>resize 20N<CR> i", silent)
+tnoremap("<C-c><C-c>", "<C-\\><C-n>", silent)
+tnoremap("<D-v>", function()
+  local keys = vim.api.nvim_replace_termcodes("<C-\\><C-n>\"+pi", true, false, true)
+  vim.api.nvim_feedkeys(keys, "n", false)
+end, silent)
 
--- require("dap-python").setup("~/.virtualenvs/debugpy/bin/python")
+-- writing
+nnoremap("<C-s>", "<Cmd>set spell!<CR>", silent)
 
-dap.adapters.lldb = {
-  type = "executable",
-  command = "/opt/homebrew/opt/llvm/bin/lldb-vscode",
-  name = "lldb",
-}
+-- misc
+nnoremap("<leader>rp", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>")
+nnoremap("<leader>w", "<Cmd>w<CR>")
+nnoremap("<leader>q", "<Cmd>q<CR>")
+nnoremap("<leader><C-o>", "<Cmd>!open %<CR><CR>", silent)
+nnoremap("J", "mzJ`z")
+xnoremap("J", "mzJ`z")
 
-dap.configurations.cpp = {
-  {
-    name = "Launch",
-    type = "lldb",
-    request = "launch",
-    program = function()
-      local filetype = vim.bo.filetype
-
-      local target_file = "No File Selected"
-
-      if filetype == "cpp" or filetype == "c" then
-        local file = vim.fn.expand("%:p:r") .. ".o"
-        target_file = vim.fn.input("Path to executable: ", file, "file")
-      end
-
-      if filetype == "rust" then
-        target_file = vim.fn.input("Path to executable: ", vim.loop.cwd() .. "/target/debug/", "file")
-      end
-
-      if target_file == "No File Selected" then
-        target_file = vim.fn.input("Path to executable: ", vim.loop.cwd() .. "/", "file")
-      end
-
-      if target_file ~= nil and target_file ~= "" then
-        return target_file
-      else
-        return "No File Selected"
-      end
-    end,
-    cwd = "${workspaceFolder}",
-    stopOnEntry = true,
-    args = {},
-    runInTerminal = true,
-  },
-}
-
-dap.configurations.c = dap.configurations.cpp
-dap.configurations.rust = dap.configurations.cpp
+-- Running Code
+nnoremap("<leader>cb", "<Cmd>Build<CR>", silent)
+nnoremap("<leader>cd", "<Cmd>DebugBuild<CR>", silent)
+nnoremap("<leader>cl", "<Cmd>Run<CR>", silent)
+nnoremap("<leader>cr", "<Cmd>Ha<CR>", silent)

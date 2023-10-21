@@ -5,3 +5,5 @@ vim.loader.enable()
 
 
 require("dev")
+
+

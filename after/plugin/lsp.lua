@@ -41,6 +41,8 @@ lsp.format_mapping("<leader>m", {
       "scss",
       "txt",
       "text",
+      "php",
+      "intelephense"
     },
   },
 })
@@ -48,7 +50,7 @@ lsp.format_mapping("<leader>m", {
 lsp.setup()
 
 require("mason-nvim-dap").setup({
-  ensure_installed = { "python", "cpp" },
+  ensure_installed = { "python", "cpp","php","intelephense" },
   automatic_installation = true,
   handlers = {
     function(config) require("mason-nvim-dap").default_setup(config) end,

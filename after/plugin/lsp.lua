@@ -47,6 +47,7 @@ lsp.format_mapping("<leader>m", {
   },
 })
 
+
 lsp.setup()
 
 require("mason-nvim-dap").setup({

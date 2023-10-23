@@ -4,6 +4,7 @@ local inoremap = Remap.inoremap
 local xnoremap = Remap.xnoremap
 local tnoremap = Remap.tnoremap
 
+
 vim.g.mapleader = " "
 
 
@@ -11,7 +12,7 @@ nnoremap("<C-z>", "<Cmd>silent !font-switcher; kill -SIGUSR1 $(ps -A | grep 'kit
 
 nnoremap("<C-b>", "<Cmd>silent !font-switcher -d; kill -SIGUSR1 $(ps -A | grep 'kitty$' | awk '{print $1}')<CR>")
 
-
+nnoremap("q","b",silent)
 -- easier to enter normal mode
 inoremap("jk", "<Esc>")
 

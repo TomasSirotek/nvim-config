@@ -15,21 +15,62 @@ local function my_on_attach(bufnr)
   vim.keymap.set("n", "z", api.tree.change_root_to_node, opts("CD"))
 end
 
+  local icons = require "dev.icons"
+
 require("nvim-tree").setup({
   on_attach = my_on_attach,
   view = {
-    side = "right",
+    side = "left",
     width = 40,
   },
   renderer = {
-    special_files = {
-      -- "Cargo.toml",
-      -- "Makefile",
-      -- "README.md",
-      -- "readme.md",
-      -- ".gitignore",
-    },
+      add_trailing = false,
+      group_empty = false,
+      highlight_git = false,
+      full_name = false,
+      highlight_opened_files = "none",
+      root_folder_label = ":t",
+      indent_width = 2,
+      indent_markers = {
+        enable = false,
+        inline_arrows = true,
+        icons = {
+          corner = "└",
+          edge = "│",
+          item = "│",
+          none = " ",
+        },
   },
+      --   icons = {
+      --   git_placement = "before",
+      --   padding = " ",
+      --   symlink_arrow = "→",
+      --   glyphs = {
+      --     default = icons.ui.Text,
+      --     bookmark = icons.ui.BookMark,
+      --     folder = {
+      --       arrow_closed = icons.ui.ChevronRight,
+      --       arrow_open = icons.ui.ChevronShortDown,
+      --       default = icons.ui.Folder,
+      --       open = icons.ui.FolderOpen,
+      --       empty = icons.ui.EmptyFolder,
+      --       empty_open = icons.ui.EmptyFolderOpen,
+      --       symlink = icons.ui.FolderSymlink,
+      --       symlink_open = icons.ui.FolderOpen,
+      --     },
+        
+      --   },
+      -- },
+      special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
+      symlink_destination = true,
+    },
+    update_focused_file = {
+      enable = true,
+      debounce_delay = 15,
+      update_root = true,
+      ignore_list = {},
+  },
+
   actions = { open_file = { quit_on_open = true } },
   filters = { dotfiles = false, custom = { "^.DS_Store$", "^\\.git$" } },
   git = { enable = true, ignore = false, timeout = 500 },

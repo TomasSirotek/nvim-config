@@ -102,5 +102,6 @@ require("lazy").setup({
   { "laytan/cloak.nvim" },
   { "nvim-lualine/lualine.nvim" },
   { "lukas-reineke/indent-blankline.nvim" },
-  { 'rose-pine/neovim', as = 'rose-pine' }
+  { 'rose-pine/neovim', as = 'rose-pine' },
+  { "nvim-tree/nvim-web-devicons"},
 })
